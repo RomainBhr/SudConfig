@@ -1,0 +1,879 @@
+-- phpMyAdmin SQL Dump
+-- version 5.0.2
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : 127.0.0.1:3306
+-- Généré le : sam. 13 mars 2021 à 15:17
+-- Version du serveur :  8.0.21
+-- Version de PHP : 7.3.21
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de données : `sudconfig`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `actionarticle`
+--
+
+DROP TABLE IF EXISTS `actionarticle`;
+CREATE TABLE IF NOT EXISTS `actionarticle` (
+  `idAction` int NOT NULL AUTO_INCREMENT,
+  `idArticles` int NOT NULL,
+  `text` text NOT NULL,
+  `positif` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`idAction`)
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `actionarticle`
+--
+
+INSERT INTO `actionarticle` (`idAction`, `idArticles`, `text`, `positif`) VALUES
+(1, 1, 'Nous montons ta machine', 0),
+(2, 1, 'On lui fait subir une série de tests', 0),
+(3, 1, 'Mais aucun système d\'exploitation n\'est installé', 1),
+(4, 2, 'Nous montons ton pc', 0),
+(5, 2, 'On lui fait subir une série de tests', 0),
+(6, 2, 'On installe le système d\'exploitation de ton choix ', 0),
+(7, 2, 'Le PC arrive chez toi, tu n\'as plus qu\'à le brancher et à le démarrer, il est prêt !', 0),
+(8, 3, 'Nous montons ta machine', 0),
+(9, 3, 'On lui fait subir une série de tests', 0),
+(10, 3, 'On installe le système d\'exploitation de ton choix', 0),
+(11, 3, 'On installe les derniers drivers pour ta config ', 0),
+(12, 3, 'On te personnalise ta tours avec un ou plusieurs stickers de ton choix et on t\'ajoute un peu de RGB', 0),
+(13, 3, 'Le PC arrive chez toi, tu n\'as plus qu\'à le brancher et à le démarrer, il est prêt et optimisé', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `articlecategorie`
+--
+
+DROP TABLE IF EXISTS `articlecategorie`;
+CREATE TABLE IF NOT EXISTS `articlecategorie` (
+  `idCat` int NOT NULL,
+  `libelleCat` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`idCat`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `articlecategorie`
+--
+
+INSERT INTO `articlecategorie` (`idCat`, `libelleCat`) VALUES
+(1, 'Montage'),
+(2, 'WaterCooling'),
+(3, 'Custom ton clavier'),
+(4, 'Site Web');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `articles`
+--
+
+DROP TABLE IF EXISTS `articles`;
+CREATE TABLE IF NOT EXISTS `articles` (
+  `idArticle` int NOT NULL,
+  `libelle` varchar(255) DEFAULT NULL,
+  `dateDePublication` varchar(255) DEFAULT NULL,
+  `Description` varchar(255) DEFAULT NULL,
+  `prix` decimal(15,2) DEFAULT NULL,
+  `recommander` int DEFAULT NULL,
+  `idCat` int NOT NULL,
+  PRIMARY KEY (`idArticle`),
+  KEY `idCat` (`idCat`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `articles`
+--
+
+INSERT INTO `articles` (`idArticle`, `libelle`, `dateDePublication`, `Description`, `prix`, `recommander`, `idCat`) VALUES
+(1, 'Basic', '17/02/2021', 'description test', '20.00', 0, 1),
+(2, 'Standar', '11/02/2021', 'test', '30.00', 1, 1),
+(3, 'XXL', '18/02/2021', 'La c\'est du lourd', '49.00', 0, 1),
+(4, 'Premium', '18/02/2021', 'La c\'est du lourd mon pote', '89.99', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `categorie_touche`
+--
+
+DROP TABLE IF EXISTS `categorie_touche`;
+CREATE TABLE IF NOT EXISTS `categorie_touche` (
+  `idCatTouche` int NOT NULL AUTO_INCREMENT,
+  `libelleCatT` varchar(255) NOT NULL,
+  `prixToucheCat` float NOT NULL,
+  PRIMARY KEY (`idCatTouche`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `categorie_touche`
+--
+
+INSERT INTO `categorie_touche` (`idCatTouche`, `libelleCatT`, `prixToucheCat`) VALUES
+(1, 'Mécanique', 7.99),
+(2, 'Normal - bureau', 5.99),
+(3, 'Slime', 9.99),
+(4, 'Autre', 6.99);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `clavier`
+--
+
+DROP TABLE IF EXISTS `clavier`;
+CREATE TABLE IF NOT EXISTS `clavier` (
+  `idClavier` int NOT NULL AUTO_INCREMENT,
+  `libelleClavier` varchar(255) DEFAULT NULL,
+  `description` varchar(255) NOT NULL,
+  `prix` float NOT NULL,
+  `recommander` int NOT NULL DEFAULT '0',
+  `idCat` int NOT NULL DEFAULT '3',
+  PRIMARY KEY (`idClavier`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `clavier`
+--
+
+INSERT INTO `clavier` (`idClavier`, `libelleClavier`, `description`, `prix`, `recommander`, `idCat`) VALUES
+(1, '100%', 'clavier de taille normal', 10, 0, 3),
+(2, '60%', 'Le clavier est plus petit de 40% qu\'un clavier normal', 12, 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `commandeclavier`
+--
+
+DROP TABLE IF EXISTS `commandeclavier`;
+CREATE TABLE IF NOT EXISTS `commandeclavier` (
+  `idCommande` int NOT NULL AUTO_INCREMENT,
+  `materiaux` varchar(255) DEFAULT NULL,
+  `idUti` int NOT NULL,
+  `idClavier` int NOT NULL DEFAULT '1',
+  `idToucheCat` float NOT NULL DEFAULT '1',
+  `prixModif` float NOT NULL,
+  `compteur` int NOT NULL DEFAULT '1',
+  `favori` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`idCommande`),
+  KEY `idUti` (`idUti`)
+) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `commandeclavier`
+--
+
+INSERT INTO `commandeclavier` (`idCommande`, `materiaux`, `idUti`, `idClavier`, `idToucheCat`, `prixModif`, `compteur`, `favori`) VALUES
+(3, NULL, 13, 2, 5.99, 17.99, 1, 0),
+(4, NULL, 13, 1, 5.99, 15.39, 3, 1),
+(5, NULL, 13, 1, 9.99, 20.09, 4, 0),
+(2, NULL, 13, 1, 6.99, 17.49, 2, 0),
+(1, NULL, 13, 1, 7.99, 18.19, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `commentaire`
+--
+
+DROP TABLE IF EXISTS `commentaire`;
+CREATE TABLE IF NOT EXISTS `commentaire` (
+  `idCommentaire` int NOT NULL AUTO_INCREMENT,
+  `titre` varchar(255) NOT NULL,
+  `text` varchar(255) NOT NULL,
+  `note` int NOT NULL DEFAULT '0',
+  `idArticles` int NOT NULL,
+  `idUser` int NOT NULL,
+  PRIMARY KEY (`idCommentaire`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `commentaire`
+--
+
+INSERT INTO `commentaire` (`idCommentaire`, `titre`, `text`, `note`, `idArticles`, `idUser`) VALUES
+(1, 'Super ! ', 'Et quia Mesopotamiae tractus omnes crebro inquietari sueti praetenturis et stationibus servabantur agrariis, laevorsum flexo itinere Osdroenae subsederat extimas partes, novum parumque aliquando temptatum commentum adgressus. quod si impetrasset, fulminis', 5, 1, 1),
+(2, 'Bof', 'lol', 3, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `contenu_panier`
+--
+
+DROP TABLE IF EXISTS `contenu_panier`;
+CREATE TABLE IF NOT EXISTS `contenu_panier` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_panier` int NOT NULL,
+  `articles_id` int DEFAULT NULL,
+  `id_Commande` int NOT NULL DEFAULT '0',
+  `quantite` int NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `fk_contenu_panier_articles1_idx` (`articles_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `contenu_panier`
+--
+
+INSERT INTO `contenu_panier` (`id`, `id_panier`, `articles_id`, `id_Commande`, `quantite`) VALUES
+(11, 2, 1, 0, 5),
+(12, 2, 2, 0, 10),
+(13, 2, 1, 0, 1),
+(14, 2, 1, 0, 1),
+(15, 2, 1, 0, 1),
+(16, 2, 1, 0, 1),
+(17, 2, 1, 0, 1),
+(18, 2, 1, 0, 1),
+(19, 2, 1, 0, 1),
+(20, 2, 1, 0, 1),
+(21, 2, 1, 0, 1),
+(22, 2, 1, 0, 1),
+(23, 2, 1, 0, 1),
+(24, 2, 1, 0, 1),
+(25, 2, 1, 0, 1),
+(28, 11, 1, 0, 1),
+(29, 4, 1, 0, 1),
+(30, 11, 1, 0, 1),
+(31, 13, 1, 0, 1),
+(36, 13, NULL, 4, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `couleur`
+--
+
+DROP TABLE IF EXISTS `couleur`;
+CREATE TABLE IF NOT EXISTS `couleur` (
+  `idCouleur` int NOT NULL,
+  `libelleCouleur` varchar(255) DEFAULT NULL,
+  `couleurHtag` varchar(255) NOT NULL,
+  PRIMARY KEY (`idCouleur`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `couleur`
+--
+
+INSERT INTO `couleur` (`idCouleur`, `libelleCouleur`, `couleurHtag`) VALUES
+(1, 'Rouge', '#990606'),
+(2, 'Bleu', '#042756'),
+(3, 'Vert', '#177E07');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `image`
+--
+
+DROP TABLE IF EXISTS `image`;
+CREATE TABLE IF NOT EXISTS `image` (
+  `IdImage` int NOT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `nom` varchar(255) DEFAULT NULL,
+  `idArtic` int NOT NULL,
+  PRIMARY KEY (`IdImage`),
+  KEY `idArticle` (`idArtic`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `image`
+--
+
+INSERT INTO `image` (`IdImage`, `url`, `nom`, `idArtic`) VALUES
+(1, '1.jpg', 'test', 1),
+(2, '3.jpg', 'test', 1),
+(3, '2.jpg', 'test', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `membrepermission`
+--
+
+DROP TABLE IF EXISTS `membrepermission`;
+CREATE TABLE IF NOT EXISTS `membrepermission` (
+  `idPerm` int NOT NULL,
+  `permission` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`idPerm`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `membrepermission`
+--
+
+INSERT INTO `membrepermission` (`idPerm`, `permission`) VALUES
+(1, 'Utilisateur'),
+(2, 'Modérateur'),
+(99921, 'Admin');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `panier`
+--
+
+DROP TABLE IF EXISTS `panier`;
+CREATE TABLE IF NOT EXISTS `panier` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `reference` char(100) NOT NULL DEFAULT 'client',
+  `dateCreation` varchar(255) NOT NULL,
+  `statut` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `panier`
+--
+
+INSERT INTO `panier` (`id`, `reference`, `dateCreation`, `statut`) VALUES
+(1, '', '2021-01-15 18:17:51', 1),
+(2, 'client', '2021-01-25 23:43:15', 0),
+(3, 'client', 'test', 0),
+(4, 'client', '2021-02-25 00:41:31', 0),
+(11, 'client', '2021-02-25 00:44:02', 0),
+(12, 'client', '2021-03-01 14:16:48', 0),
+(13, 'client', '2021-03-02 01:31:24', 0),
+(14, 'client', '2021-03-13 15:40:55', 0),
+(15, 'client', '2021-03-13 15:42:19', 0),
+(16, 'client', '2021-03-13 16:04:54', 0),
+(17, 'client', '2021-03-13 16:05:21', 0),
+(18, 'client', '2021-03-13 16:08:47', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `personnalisation`
+--
+
+DROP TABLE IF EXISTS `personnalisation`;
+CREATE TABLE IF NOT EXISTS `personnalisation` (
+  `idTouches` int NOT NULL,
+  `idCommande` int NOT NULL,
+  `couleurperso` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`idTouches`,`idCommande`),
+  KEY `idCommande` (`idCommande`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `personnalisation`
+--
+
+INSERT INTO `personnalisation` (`idTouches`, `idCommande`, `couleurperso`) VALUES
+(178, 5, '#000'),
+(177, 5, '#000'),
+(176, 5, '#000'),
+(175, 5, '#000'),
+(174, 5, '#000'),
+(173, 5, '#000'),
+(172, 5, '#000'),
+(171, 5, '#000'),
+(170, 5, '#000'),
+(169, 5, '#042756'),
+(168, 5, '#000'),
+(167, 5, '#000'),
+(166, 5, '#000'),
+(165, 5, '#000'),
+(164, 5, '#000'),
+(163, 5, '#000'),
+(162, 5, '#000'),
+(161, 5, '#000'),
+(160, 5, '#000'),
+(159, 5, '#000'),
+(158, 5, '#000'),
+(157, 5, '#000'),
+(156, 5, '#000'),
+(155, 5, '#000'),
+(154, 5, '#000'),
+(153, 5, '#000'),
+(152, 5, '#000'),
+(151, 5, '#000'),
+(150, 5, '#000'),
+(149, 5, '#000'),
+(148, 5, '#000'),
+(147, 5, '#000'),
+(146, 5, '#000'),
+(145, 5, '#000'),
+(144, 5, '#000'),
+(143, 5, '#000'),
+(142, 5, '#000'),
+(141, 5, '#000'),
+(140, 5, '#000'),
+(139, 5, '#000'),
+(138, 5, '#000'),
+(137, 5, '#000'),
+(136, 5, '#000'),
+(135, 5, '#000'),
+(134, 5, '#000'),
+(133, 5, '#000'),
+(132, 5, '#000'),
+(131, 5, '#000'),
+(130, 5, '#000'),
+(129, 5, '#000'),
+(128, 5, '#000'),
+(127, 5, '#000'),
+(126, 5, '#000'),
+(125, 5, '#000'),
+(124, 5, '#000'),
+(123, 5, '#000'),
+(122, 5, '#000'),
+(121, 5, '#000'),
+(120, 5, '#000'),
+(119, 5, '#000'),
+(118, 5, '#000'),
+(117, 5, '#000'),
+(116, 5, '#000'),
+(115, 5, '#000'),
+(114, 5, '#000'),
+(113, 5, '#000'),
+(112, 5, '#000'),
+(111, 5, '#000'),
+(110, 5, '#000'),
+(109, 5, '#000'),
+(108, 5, '#000'),
+(107, 5, '#000'),
+(106, 5, '#000'),
+(105, 5, '#000'),
+(104, 5, '#000'),
+(103, 5, '#000'),
+(102, 5, '#000'),
+(101, 5, '#000'),
+(100, 5, '#000'),
+(178, 4, '#000'),
+(177, 4, '#000'),
+(176, 4, '#000'),
+(175, 4, '#000'),
+(174, 4, '#042756'),
+(173, 4, '#042756'),
+(172, 4, '#000'),
+(171, 4, '#000'),
+(170, 4, '#000'),
+(169, 4, '#042756'),
+(168, 4, '#000'),
+(167, 4, '#000'),
+(166, 4, '#000'),
+(165, 4, '#990606'),
+(164, 4, '#000'),
+(163, 4, '#000'),
+(162, 4, '#000'),
+(161, 4, '#000'),
+(160, 4, '#000'),
+(159, 4, '#990606'),
+(158, 4, '#000'),
+(157, 4, '#000'),
+(156, 4, '#000'),
+(155, 4, '#042756'),
+(154, 4, '#000'),
+(153, 4, '#000'),
+(152, 4, '#042756'),
+(151, 4, '#000'),
+(150, 4, '#000'),
+(149, 4, '#000'),
+(148, 4, '#000'),
+(147, 4, '#000'),
+(146, 4, '#000'),
+(145, 4, '#000'),
+(144, 4, '#042756'),
+(143, 4, '#000'),
+(142, 4, '#000'),
+(141, 4, '#000'),
+(140, 4, '#042756'),
+(139, 4, '#000'),
+(138, 4, '#000'),
+(137, 4, '#000'),
+(136, 4, '#042756'),
+(135, 4, '#000'),
+(134, 4, '#000'),
+(133, 4, '#042756'),
+(132, 4, '#000'),
+(131, 4, '#000'),
+(130, 4, '#000'),
+(129, 4, '#000'),
+(128, 4, '#000'),
+(127, 4, '#042756'),
+(126, 4, '#990606'),
+(125, 4, '#000'),
+(124, 4, '#000'),
+(123, 4, '#000'),
+(122, 4, '#000'),
+(121, 4, '#000'),
+(120, 4, '#000'),
+(119, 4, '#000'),
+(118, 4, '#000'),
+(117, 4, '#000'),
+(116, 4, '#990606'),
+(115, 4, '#000'),
+(114, 4, '#000'),
+(113, 4, '#000'),
+(112, 4, '#000'),
+(111, 4, '#000'),
+(110, 4, '#000'),
+(109, 4, '#000'),
+(108, 4, '#000'),
+(107, 4, '#000'),
+(106, 4, '#000'),
+(105, 4, '#990606'),
+(104, 4, '#000'),
+(103, 4, '#000'),
+(102, 4, '#000'),
+(101, 4, '#000'),
+(100, 4, '#990606'),
+(178, 2, '#990606'),
+(177, 2, '#000'),
+(176, 2, '#000'),
+(175, 2, '#000'),
+(174, 2, '#000'),
+(173, 2, '#000'),
+(172, 2, '#000'),
+(171, 2, '#000'),
+(170, 2, '#000'),
+(169, 2, '#177E07'),
+(168, 2, '#000'),
+(167, 2, '#000'),
+(166, 2, '#000'),
+(165, 2, '#000'),
+(164, 2, '#000'),
+(163, 2, '#000'),
+(162, 2, '#000'),
+(161, 2, '#000'),
+(160, 2, '#000'),
+(159, 2, '#000'),
+(158, 2, '#042756'),
+(157, 2, '#000'),
+(156, 2, '#000'),
+(155, 2, '#000'),
+(154, 2, '#000'),
+(153, 2, '#000'),
+(152, 2, '#000'),
+(151, 2, '#000'),
+(150, 2, '#042756'),
+(149, 2, '#000'),
+(148, 2, '#000'),
+(147, 2, '#000'),
+(146, 2, '#000'),
+(145, 2, '#000'),
+(144, 2, '#000'),
+(143, 2, '#000'),
+(142, 2, '#000'),
+(141, 2, '#000'),
+(140, 2, '#000'),
+(139, 2, '#042756'),
+(138, 2, '#042756'),
+(137, 2, '#000'),
+(136, 2, '#000'),
+(135, 2, '#000'),
+(134, 2, '#000'),
+(133, 2, '#000'),
+(132, 2, '#000'),
+(131, 2, '#000'),
+(130, 2, '#042756'),
+(129, 2, '#000'),
+(128, 2, '#000'),
+(127, 2, '#000'),
+(126, 2, '#000'),
+(125, 2, '#000'),
+(124, 2, '#000'),
+(123, 2, '#990606'),
+(122, 2, '#000'),
+(121, 2, '#000'),
+(120, 2, '#042756'),
+(119, 2, '#000'),
+(118, 2, '#000'),
+(117, 2, '#000'),
+(116, 2, '#000'),
+(115, 2, '#177E07'),
+(114, 2, '#000'),
+(113, 2, '#000'),
+(112, 2, '#000'),
+(111, 2, '#000'),
+(110, 2, '#000'),
+(109, 2, '#000'),
+(108, 2, '#000'),
+(107, 2, '#000'),
+(106, 2, '#000'),
+(105, 2, '#000'),
+(104, 2, '#000'),
+(103, 2, '#000'),
+(102, 2, '#000'),
+(101, 2, '#000'),
+(100, 2, '#000'),
+(178, 1, '#000'),
+(177, 1, '#000'),
+(176, 1, '#000'),
+(175, 1, '#000'),
+(174, 1, '#000'),
+(173, 1, '#000'),
+(172, 1, '#000'),
+(171, 1, '#000'),
+(170, 1, '#000'),
+(169, 1, '#042756'),
+(168, 1, '#000'),
+(167, 1, '#000'),
+(166, 1, '#000'),
+(165, 1, '#000'),
+(164, 1, '#000'),
+(163, 1, '#000'),
+(162, 1, '#000'),
+(161, 1, '#000'),
+(160, 1, '#000'),
+(159, 1, '#000'),
+(158, 1, '#000'),
+(157, 1, '#000'),
+(156, 1, '#000'),
+(155, 1, '#000'),
+(154, 1, '#000'),
+(153, 1, '#000'),
+(152, 1, '#000'),
+(151, 1, '#000'),
+(150, 1, '#000'),
+(149, 1, '#000'),
+(148, 1, '#000'),
+(147, 1, '#000'),
+(146, 1, '#000'),
+(145, 1, '#000'),
+(144, 1, '#000'),
+(143, 1, '#000'),
+(142, 1, '#000'),
+(141, 1, '#000'),
+(140, 1, '#000'),
+(139, 1, '#990606'),
+(138, 1, '#000'),
+(137, 1, '#000'),
+(136, 1, '#000'),
+(135, 1, '#000'),
+(134, 1, '#000'),
+(133, 1, '#000'),
+(132, 1, '#000'),
+(131, 1, '#000'),
+(130, 1, '#000'),
+(129, 1, '#000'),
+(128, 1, '#000'),
+(127, 1, '#000'),
+(126, 1, '#000'),
+(125, 1, '#000'),
+(124, 1, '#000'),
+(123, 1, '#000'),
+(122, 1, '#000'),
+(121, 1, '#000'),
+(120, 1, '#000'),
+(119, 1, '#000'),
+(118, 1, '#000'),
+(117, 1, '#000'),
+(116, 1, '#000'),
+(115, 1, '#000'),
+(114, 1, '#000'),
+(113, 1, '#000'),
+(112, 1, '#000'),
+(111, 1, '#000'),
+(110, 1, '#000'),
+(109, 1, '#000'),
+(108, 1, '#000'),
+(107, 1, '#000'),
+(106, 1, '#000'),
+(105, 1, '#000'),
+(104, 1, '#000'),
+(103, 1, '#000'),
+(102, 1, '#000'),
+(101, 1, '#000'),
+(100, 1, '#177E07');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `stockdisponibiliter`
+--
+
+DROP TABLE IF EXISTS `stockdisponibiliter`;
+CREATE TABLE IF NOT EXISTS `stockdisponibiliter` (
+  `idStock` int NOT NULL,
+  `nbStock` int DEFAULT NULL,
+  `idArticle` int NOT NULL,
+  PRIMARY KEY (`idStock`),
+  KEY `idArticle` (`idArticle`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `stockdisponibiliter`
+--
+
+INSERT INTO `stockdisponibiliter` (`idStock`, `nbStock`, `idArticle`) VALUES
+(1, 1, 1),
+(2, 0, 2),
+(3, 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `touche`
+--
+
+DROP TABLE IF EXISTS `touche`;
+CREATE TABLE IF NOT EXISTS `touche` (
+  `idTouche` int NOT NULL AUTO_INCREMENT,
+  `libelleTou` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `couleur` varchar(255) NOT NULL DEFAULT '#000',
+  `txtcouleur` varchar(255) NOT NULL DEFAULT '#fff',
+  `idClavier` int NOT NULL DEFAULT '1',
+  PRIMARY KEY (`idTouche`),
+  KEY `idClavier` (`idClavier`)
+) ENGINE=MyISAM AUTO_INCREMENT=179 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `touche`
+--
+
+INSERT INTO `touche` (`idTouche`, `libelleTou`, `couleur`, `txtcouleur`, `idClavier`) VALUES
+(100, 'echap', '#000', '#fff', 1),
+(101, 'f1', '#000', '#fff', 1),
+(102, 'f2', '#000', '#fff', 1),
+(103, 'f3', '#000', '#fff', 1),
+(104, 'f4', '#000', '#fff', 1),
+(105, 'f5', '#000', '#fff', 1),
+(106, 'f6', '#000', '#fff', 1),
+(107, 'f7', '#000', '#fff', 1),
+(108, 'f8', '#000', '#fff', 1),
+(109, 'f9', '#000', '#fff', 1),
+(110, 'f10', '#000', '#fff', 1),
+(111, 'f11', '#000', '#fff', 1),
+(112, 'f12', '#000', '#fff', 1),
+(113, '²', '#000', '#fff', 1),
+(114, '1', '#000', '#fff', 1),
+(115, '2', '#000', '#fff', 1),
+(116, '3', '#000', '#fff', 1),
+(117, '4', '#000', '#fff', 1),
+(118, '5', '#000', '#fff', 1),
+(119, '6', '#000', '#fff', 1),
+(120, '7', '#000', '#fff', 1),
+(121, '8', '#000', '#fff', 1),
+(122, '9', '#000', '#fff', 1),
+(123, '0', '#000', '#fff', 1),
+(124, ')', '#000', '#fff', 1),
+(125, '=', '#000', '#fff', 1),
+(126, 'tab', '#000', '#fff', 1),
+(127, 'a', '#000', '#fff', 1),
+(128, 'z', '#000', '#fff', 1),
+(129, 'e', '#000', '#fff', 1),
+(130, 'r', '#000', '#fff', 1),
+(131, 't', '#000', '#fff', 1),
+(132, 'y', '#000', '#fff', 1),
+(133, 'u', '#000', '#fff', 1),
+(134, 'i', '#000', '#fff', 1),
+(135, 'o', '#000', '#fff', 1),
+(136, 'p', '#000', '#fff', 1),
+(137, '^', '#000', '#fff', 1),
+(138, '$', '#000', '#fff', 1),
+(139, 'entrée', '#000', '#fff', 1),
+(140, 'maj', '#000', '#fff', 1),
+(141, 'q', '#000', '#fff', 1),
+(142, 's', '#000', '#fff', 1),
+(143, 'd', '#000', '#fff', 1),
+(144, 'f', '#000', '#fff', 1),
+(145, 'g', '#000', '#fff', 1),
+(146, 'h', '#000', '#fff', 1),
+(147, 'j', '#000', '#fff', 1),
+(148, 'k', '#000', '#fff', 1),
+(149, 'l', '#000', '#fff', 1),
+(150, 'm', '#000', '#fff', 1),
+(151, 'ù', '#000', '#fff', 1),
+(152, '*', '#000', '#fff', 1),
+(153, '▲', '#000', '#fff', 1),
+(154, '<>', '#000', '#fff', 1),
+(155, 'w', '#000', '#fff', 1),
+(156, 'x', '#000', '#fff', 1),
+(157, 'c', '#000', '#fff', 1),
+(158, 'v', '#000', '#fff', 1),
+(159, 'b', '#000', '#fff', 1),
+(160, 'n', '#000', '#fff', 1),
+(161, '?', '#000', '#fff', 1),
+(162, ';', '#000', '#fff', 1),
+(163, ':', '#000', '#fff', 1),
+(164, '!', '#000', '#fff', 1),
+(165, '▼', '#000', '#fff', 1),
+(166, 'ctrl1', '#000', '#fff', 1),
+(167, 'win', '#000', '#fff', 1),
+(168, 'alt1', '#000', '#fff', 1),
+(169, 'space', '#000', '#fff', 1),
+(170, 'altgr', '#000', '#fff', 1),
+(171, 'autre', '#000', '#fff', 1),
+(172, 'fn', '#000', '#fff', 1),
+(173, 'ctrl2', '#000', '#fff', 1),
+(174, '↑', '#000', '#fff', 1),
+(175, '←', '#000', '#fff', 1),
+(176, '↓', '#000', '#fff', 1),
+(177, '→', '#000', '#fff', 1),
+(178, 'supp', '#000', '#fff', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `utilisateur`
+--
+
+DROP TABLE IF EXISTS `utilisateur`;
+CREATE TABLE IF NOT EXISTS `utilisateur` (
+  `idUti` int NOT NULL AUTO_INCREMENT,
+  `Nom` varchar(255) DEFAULT NULL,
+  `pseudo` varchar(255) NOT NULL,
+  `Prenom` varchar(255) DEFAULT NULL,
+  `DateNaiss` varchar(255) DEFAULT NULL,
+  `Tel` int DEFAULT NULL,
+  `Mail` varchar(255) DEFAULT NULL,
+  `Ville` varchar(255) DEFAULT NULL,
+  `Adresse` varchar(255) DEFAULT NULL,
+  `pays` varchar(255) NOT NULL,
+  `Codepostal` int DEFAULT NULL,
+  `ComplementAdresse` varchar(255) DEFAULT NULL,
+  `Civilite` varchar(255) DEFAULT NULL,
+  `DateInscription` varchar(255) DEFAULT NULL,
+  `pwd` varchar(255) NOT NULL,
+  `idPerm` int NOT NULL DEFAULT '1',
+  PRIMARY KEY (`idUti`),
+  KEY `idPerm` (`idPerm`)
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `utilisateur`
+--
+
+INSERT INTO `utilisateur` (`idUti`, `Nom`, `pseudo`, `Prenom`, `DateNaiss`, `Tel`, `Mail`, `Ville`, `Adresse`, `pays`, `Codepostal`, `ComplementAdresse`, `Civilite`, `DateInscription`, `pwd`, `idPerm`) VALUES
+(1, 'Michelle', 'MichelleL\'alaphaTesteur', 'Test', '21/06/2001', 6, 'ouais', 'azadadz', 'azdazd', '', 26, 'zadazda', 'alien', '21/02/2001', '1', 1),
+(2, 'Boehler', 'Admin', 'romain', '2001-06-21', 643636187, 'romrom210601@gmail.com', 'Avignon', 'ahah', 'France', 84000, 'ahah', 'homme', '2021-02-25 00:06:24', '$2y$10$W6rMwdWZxZpnUp7G7nwc0ejzdz3D0SmIddPmbCGymn9nLih6MIsrG', 0),
+(3, 'test', 'test', 'test', '2001-06-21', 0, 'test@test.test', 'test', 'test', 'test', 0, 'test', 'homme', '2021-02-25 00:08:30', '$2y$10$VOwFVsiAuXr5iCg2XJcZvOTzCt3Mmwu0KRCBBX9BELZzR3lMmxoqq', 0),
+(4, 'bebe', 'bebe', 'bebe', '2001-06-21', 780348786, 'Audrey@Audrey.Audrey', 'Avignon', 'ahah', 'France', 84000, 'ahah', 'homme', '2021-02-25 00:41:31', '$2y$10$/FPBZS/8XqqPO4.uRyQoSenuJC00iroSbiupgvPSw8WjXqtSV.0iS', 0),
+(5, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '', 1),
+(6, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '', 1),
+(7, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '', 1),
+(8, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '', 1),
+(9, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '', 1),
+(10, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '', 1),
+(11, 'uti', 'uti', 'uti', '2001-06-21', 0, 'uti@uti.uti', 'uti', 'uti', 'uti', 0, 'uti', 'homme', '2021-02-25 00:44:02', '$2y$10$kHYySrbs/NxKhDsBeCbM5OlqLyWkc/gKrE5r4MZUPO5UjLQTKkj2C', 1),
+(12, 'rrrrrrr', 'Rrrrr', 'rrrrrrrr', '2021-12-31', 6, 'rrrrrr@rr.com', 'rrrrrr', 'rrrrrrrr', 'rrrrr', 6, 'rrrrrrrr', 'homme', '2021-03-01 14:16:48', '$2y$10$pTtx/4qPV.ax79EClUiaP.Ej0j3/xSutetLqvrXuwK1KTkHaJCNVy', 1),
+(13, 'Yo', 'yo', 'Yo', '0220-06-21', 621, 'yo@yo.yo', 'yo', 'yo', 'yo', 0, 'yo', 'homme', '2021-03-02 01:31:24', '$2y$10$nAK4vPbeYPPXxGWyBFNNoOzIZwnnYQ1uyQqTmV7Fb9Jdxhlex9snO', 1),
+(14, 'Romain', 'test', 'Boehler', '2201-06-21', 6, 'romrom210601@gmail.com', 'Avignon', 'ahah', 'France', 84000, 'ahah', 'homme', '2021-03-13 15:40:55', '$2y$10$14uU7ylaNBAk1tT6N.aeuutPpLT4QW5yE6/jUgkvbQxKFFeYNHWJW', 1),
+(15, 'Boehler', 'romain', 'Romain', '2001-06-21', 643636187, 'romrom210601@gmail.com', 'Avignon', 'ahah', 'France', 84000, 'ahah', 'homme', '2021-03-13 15:42:19', '$2y$10$DD2WJqil.DzU/uWpOfX3Oe93Zgr1wPY6NducAOUKVEllDYCQZDLxq', 1),
+(16, 'Boehler', 'romain', 'Romain', '2001-06-21', 643636187, 'romrom210601@gmail.com', 'Avignon', 'ahah', 'France', 84000, 'ahah', 'homme', '2021-03-13 16:04:54', '$2y$10$.2wCUgb/I3ClLof8MNdAHejxvHHjY5Nsoew0PAcupEwxg1XMAgaeS', 1),
+(17, 'Boehler', 'romain', 'Romain', '2001-06-21', 643636187, 'romrom210601@gmail.com', 'Avignon', 'ahah', 'uti', 84000, 'ahah', 'homme', '2021-03-13 16:05:21', '$2y$10$4jDHgx50eXcFmHCCudlXGuHmpi.Ez0FUmPW.qhmzCox.JOzFfscW2', 1),
+(18, 'Boehler', 'romain', 'Romain', '201010-06-21', 643636187, 'romrom210601@gmail.com', 'Graveson', 'azdad', 'zdadadz', 13690, '517 rue de la roche taillé', 'homme', '2021-03-13 16:08:47', '$2y$10$CMluSnrPxTagElZkEd/VzOHdKOZeNpJA1h5yrYWuukJtb38ZEGGpW', 1);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
