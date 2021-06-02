@@ -43,6 +43,16 @@ switch ($cas) {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Perso commu">
+    case 'afficherClavierCommu':{
+        require_once Chemins::CONTROLEURS.'controleur_produits.class.php';
+        $controleurProduits = new ControleurProduits();
+        $controleurProduits->afficherClavierCommu();
+        break;
+    }
+
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Utilisateur">
     case 'afficherPersonnalisation':{
         require_once Chemins::CONTROLEURS.'controleur_produits.class.php';
@@ -82,6 +92,12 @@ switch ($cas) {
         $controleurUtilisateur->mdpOublier();
         break;
     }
+    case 'passerCommande':{
+        require_once Chemins::CONTROLEURS.'controleur_passercommande.class.php';
+        $controleurCommande = new ControleurPasserCommande();
+        $controleurCommande->AfficherCommande();
+        break;
+    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Panier">
@@ -92,6 +108,16 @@ switch ($cas) {
         break;
     }
     // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="x5106">
+    case 'AfficherAdminx5106':{
+        require_once Chemins::CONTROLEURS.'controleur_adminx5106.class.php';
+        $controleurAdminx5106 = new Controleurx5106();
+        $controleurAdminx5106->AfficherAdminx5106();
+        break;
+    }
+    // </editor-fold>
+
     default : {
         require Chemins::VUES . 'v_erreur404.inc.php';
         break;

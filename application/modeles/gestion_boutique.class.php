@@ -68,7 +68,7 @@ class GestionBoutique {
     public static function getLesProduitsByCategorie($cat) {
         self::seConnecter();
         
-        self::$requete = "SELECT * FROM articles P,articlecategorie C where P.idCat = C.idCat AND c.idCat = :idCat";
+        self::$requete = "SELECT * FROM articles P,articlecategorie C, stockdisponibiliter S where P.idCat = C.idCat AND c.idCat = :idCat AND S.idArticle = P.idArticle";
 
         self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
         self::$pdoStResults->bindValue('idCat', $cat);
@@ -82,7 +82,7 @@ class GestionBoutique {
     public static function getLesImagesById($id) {
         self::seConnecter();
 
-        self::$requete = "select * from image i, articles a where a.idArticle = i.idArtic and idArtic = :idArticle";
+        self::$requete = "select * from image i, articles a where a.idArticle = i.idArtic and idArtic = :idArticle ORDER BY emplacement";
 
         self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
         self::$pdoStResults->bindValue('idArticle', $id);

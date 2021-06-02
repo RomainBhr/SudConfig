@@ -17,7 +17,9 @@ class VariablesGlobales
     public static $idCategorie;
     public static $lesPaniers;
     public static $Actions;
+    public static $douvienstu;
     public static $lid;
+    public static $liddetouche;
     public static $lUti;
     public static $message;
     public static $LesImgs;
@@ -25,6 +27,7 @@ class VariablesGlobales
     public static $LesTailles;
     public static $LaTaille;
     public static $idCouleur;
+    public static $Couleur;
     public static $test2;
     public static $Panier;
     public static $Recommander;
@@ -39,11 +42,28 @@ class VariablesGlobales
     public static $retour;
     public static $LesArticles;
     public static $idUti;
+    public static $Materiaux;
     public static $idMax;
     public static $commandesum;
     public static $toutesLescouleurs;
+    public static $livreurs;
+    public static $LastLivreur;
+    public static $choixLivraison;
+    public static $choixLivraisonValider;
+    public static $prixlivraison;
     public static $nom;
+    public static $lastProduit;
+    public static $getUti;
+    public static $prix1;
+    public static $prix2;
+    public static $prixTotal;
+    public static $prixTotalTTC;
     public static $messagemail;
+    public static $Lesclaviers;
+    public static $maxToucheClavier;
+    public static $minToucheClavier;
+    public static $idClavierByCommande;
+    public static $lacouleurlid;
     public static $prenom;
     public static $entete;
 }

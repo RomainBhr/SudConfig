@@ -18,14 +18,15 @@
             </span>
         </span>
     <article>
-        <h1><br>Custom ton clavier : <?= $cat->libelleClavier ?>  </h1>
+        <h2 class='red'><?php echo VariablesGlobales::$message2; ?></h2>
+        <h1>Custom ton clavier : <?= $cat->libelleClavier ?>  </h1>
         <div class="larticleClav">
             <form method="post">
                 <table class="leclavier">
                     <tr>
                         <?php foreach (VariablesGlobales::$touche as $unetouche){ ?>
                             <?php if ($unetouche->libelleTou == "echap") { ?>
-                                <td class="touche" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?= $unetouche->libelleTou ?></td>
+                                <td class="touche" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?php VariablesGlobales::$nom = ucfirst($unetouche->libelleTou); echo VariablesGlobales::$nom; ?></td>
                             <?php }
                             }
                             foreach (VariablesGlobales::$touche as $unetouche){
@@ -41,7 +42,7 @@
                                 $unetouche->libelleTou == "f10" ||
                                 $unetouche->libelleTou == "f11" ||
                                 $unetouche->libelleTou == "f12"){  ?>
-                                <td class="touche" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?= $unetouche->libelleTou ?></td>
+                                <td class="touche" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?php VariablesGlobales::$nom = ucfirst($unetouche->libelleTou); echo VariablesGlobales::$nom; ?></td>
                             <?php       }
                         }
                         echo "</tr><tr>";foreach (VariablesGlobales::$touche as $unetouche){
@@ -59,7 +60,7 @@
                                 $unetouche->libelleTou == ")" ||
                                 $unetouche->libelleTou == "=" ||
                                 $unetouche->libelleTou == "supp"){ ?>
-                                <td class="touche" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?= $unetouche->libelleTou ?></td>
+                                <td class="touche" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?php VariablesGlobales::$nom = ucfirst($unetouche->libelleTou); echo VariablesGlobales::$nom; ?></td>
                             <?php } ?>
                         <?php }
                         echo "</tr><tr>";
@@ -77,9 +78,9 @@
                                 $unetouche->libelleTou == "p" ||
                                 $unetouche->libelleTou == "^" ||
                                 $unetouche->libelleTou == "$"){ ?>
-                                <td class="touche" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?= $unetouche->libelleTou ?></td>
+                                <td class="touche" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?php VariablesGlobales::$nom = ucfirst($unetouche->libelleTou); echo VariablesGlobales::$nom; ?></td>
                             <?php } if ($unetouche->libelleTou == "entrée"){?>
-                                <td class="touche" rowspan="2" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?= $unetouche->libelleTou ?></td>
+                                <td class="touche" rowspan="2" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?php VariablesGlobales::$nom = ucfirst($unetouche->libelleTou); echo VariablesGlobales::$nom; ?></td>
                             <?php }
                         }
                         echo "</tr><tr>";
@@ -97,12 +98,17 @@
                                 $unetouche->libelleTou == "m" ||
                                 $unetouche->libelleTou == "ù" ||
                                 $unetouche->libelleTou == "*"){ ?>
-                                <td class="touche" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?= $unetouche->libelleTou ?></td>
+                                <td class="touche" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?php VariablesGlobales::$nom = ucfirst($unetouche->libelleTou); echo VariablesGlobales::$nom; ?></td>
                             <?php }
                         }
                         echo "</tr><tr>";
                         foreach (VariablesGlobales::$touche as $unetouche){
-                            if ($unetouche->libelleTou == "▲" ||
+                            if ($unetouche->libelleTou == "▲"){ ?>
+                                <td class='touche' style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?= $unetouche->libelleTou ?></td>
+                            <?php }
+                        }
+                        foreach (VariablesGlobales::$touche as $unetouche){
+                            if (
                                 $unetouche->libelleTou == "<" ||
                                 $unetouche->libelleTou == "w" ||
                                 $unetouche->libelleTou == "x" ||
@@ -114,7 +120,7 @@
                                 $unetouche->libelleTou == ";" ||
                                 $unetouche->libelleTou == "/" ||
                                 $unetouche->libelleTou == "!"){ ?>
-                                <td class="touche" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?= $unetouche->libelleTou ?></td>
+                                <td class="touche" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?php VariablesGlobales::$nom = ucfirst($unetouche->libelleTou); echo VariablesGlobales::$nom; ?></td>
                                 <?php } }
                                 foreach (VariablesGlobales::$touche as $unetouche){
                                 if ($unetouche->libelleTou == "▼"){ ?>
@@ -135,9 +141,9 @@
                                 $unetouche->libelleTou == "fn" ||
                                 $unetouche->libelleTou == "autre" ||
                                 $unetouche->libelleTou == "ctrl2"){ ?>
-                                <td class="touche" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?= $unetouche->libelleTou ?></td>
+                                <td class="touche" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?php VariablesGlobales::$nom = ucfirst($unetouche->libelleTou); echo VariablesGlobales::$nom; ?></td>
                                 <?php }if ($unetouche->libelleTou == "space"){ ?>
-                                <td class="touche" colspan="4" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?= $unetouche->libelleTou ?></td>
+                                <td class="touche" colspan="4" style="background: <?= $unetouche->couleur ?>; color: <?= $unetouche->txtcouleur ?>"><?php VariablesGlobales::$nom = ucfirst($unetouche->libelleTou); echo VariablesGlobales::$nom; ?></td>
                             <?php } } echo "<td></td>";foreach (VariablesGlobales::$touche as $unetouche){
                                 if ($unetouche->libelleTou == "←" ||
                                     $unetouche->libelleTou == "↓" ||
@@ -155,8 +161,14 @@
                             <?php } ?>
                         </select>
                     <br>
+                    <h3 class="noir center"  style="margin-top: 25px;">Vous devez choisir le matériaux du clavier :</h3>
+                    <select name="mat" class="bouton-select">
+                        <?php foreach (VariablesGlobales::$Materiaux as $unMat){ ?>
+                            <option value="<?= $unMat->prixMat ?>"><?= $unMat->libmateriaux ?> - <?= $unMat->prixMat?> €</option>
+                        <?php } ?>
+                    </select>
                     <br>
-                    <h3 class="noir center">Vous pouvez valider la commande :</h3>
+                    <h3 class="noir center"  style="margin-top: 50px;">Vous pouvez valider la commande :</h3>
                     <h4 class="noir">Le prix de départ est de <span class="prix"><?= number_format($cat->prix,2,',',' ') ?> €</span></h4>
                     <input name="personnalise" type="submit" class="bouton" value="Custom le clavier !">
                 </div>

@@ -85,6 +85,21 @@ class GestionUtilisateur
 
     }
 
+    public static function getLesUtiById() {
+        self::seConnecter();
+
+        self::$requete = "SELECT * FROM utilisateur WHERE idUti = :idUt";
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('idUt', $_SESSION['id']);
+        self::$pdoStResults->execute();
+        self::$resultat = self::$pdoStResults->fetch();
+
+        self::$pdoStResults->closeCursor();
+
+        return self::$resultat;
+
+    }
+
     public static function loginExistant($pseudo){
         self::seConnecter();
 
@@ -318,11 +333,34 @@ class GestionUtilisateur
                 if($resultat->idPerm == 99921){
                     $_SESSION['idPerm'] = 99921;
                 }
-
             }else{
                 $erreur = "Pseudo ou Mot de passe incorrect";
             }
         }
+    }
+
+    public static function modifierUserCommande($nom, $prenom, $civilite, $email, $ville, $rue, $Codepostal, $pays, $ComplementAdresse){
+
+        self::seConnecter();
+
+
+        self::$requete = "update utilisateur set Nom = :nom, Prenom = :prenom , Civilite = :Civilite, Mail = :email, Ville = :ville, Adresse = :rue, Codepostal = :Codepostal, pays = :pays, ComplementAdresse = :ComplementAdresse where idUti = :idUti";
+
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('idUti', $_SESSION['id'],PDO::PARAM_INT);
+        self::$pdoStResults->bindValue('nom', $nom);
+        self::$pdoStResults->bindValue('prenom', $prenom);
+        self::$pdoStResults->bindValue('Civilite', $civilite);
+        self::$pdoStResults->bindValue('email', $email);
+        self::$pdoStResults->bindValue('ville', $ville);
+        self::$pdoStResults->bindValue('rue', $rue);
+        self::$pdoStResults->bindValue('Codepostal', $Codepostal);
+        self::$pdoStResults->bindValue('pays', $pays);
+        self::$pdoStResults->bindValue('ComplementAdresse', $ComplementAdresse);
+
+        self::$pdoStResults->execute();
+
+        self::$pdoStResults->closeCursor();
     }
 
     public static function modifiermdp($Mail,$postPassword){

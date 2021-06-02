@@ -70,7 +70,9 @@ class GestionClavier {
     public static function getLesCatDesTouches() {
         return self::SelectAll("categorie_touche");
     }
-
+    public static function getLesMateriaux() {
+        return self::SelectAll("materiaux");
+    }
     // <editor-fold defaultstate="collapsed" desc="partie des touches">
     public static function getLesClavierByCategorie($cat) {
         self::seConnecter();
@@ -238,16 +240,14 @@ class GestionClavier {
         return self::$resultat->maxid;
     }
 
-    /**
- * Ajoute une ligne dans la table Categorie
- * @param type $libelleCateg Libellé de la Catégorie
- */
-    public static function ajouterCommande($idCommande,$idUti,$idClavier,$idToucheCat,$compteur,$prix)  {
+
+    public static function ajouterCommande($idCommande,$materiaux,$idUti,$idClavier,$idToucheCat,$compteur,$prix)  {
         self::seConnecter();
 
-        self::$requete = "insert into commandeclavier(idCommande,idUti,idClavier,idToucheCat,compteur,prixModif) values(:idCommande,:idUti,:idClavier,:idToucheCat,:compteur,:prixModif)";
+        self::$requete = "insert into commandeclavier(idCommande,materiaux,idUti,idClavier,idToucheCat,compteur,prixModif) values(:idCommande,:materiaux,:idUti,:idClavier,:idToucheCat,:compteur,:prixModif)";
         self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
         self::$pdoStResults->bindValue('idCommande', $idCommande);
+        self::$pdoStResults->bindValue('materiaux', $materiaux);
         self::$pdoStResults->bindValue('idUti', $idUti);
         self::$pdoStResults->bindValue('idClavier', $idClavier);
         self::$pdoStResults->bindValue('idToucheCat', $idToucheCat);
@@ -277,6 +277,37 @@ class GestionClavier {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Partie personnalisation">
+    public static function supprimerPersonnalisation($id)  {
+        self::seConnecter();
+
+        self::$requete = "delete from personnalisation where `idCommande` = :id";
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('id',$id);
+        self::$pdoStResults->execute();
+    }
+
+    public static function getLesPersonalisationCommu() {
+        self::seConnecter();
+
+        self::$requete = "SELECT * FROM utilisateur u, commandeclavier c, clavier cl WHERE u.idUti = c.idUti and c.idClavier = cl.idClavier";
+
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->execute();
+        self::$resultat = self::$pdoStResults->fetchAll();
+
+        self::$pdoStResults->closeCursor();
+        return self::$resultat;
+    }
+
+    public static function supprimerCommandedeClavier($id)  {
+        self::seConnecter();
+
+        self::$requete = "DELETE FROM commandeclavier WHERE idCommande = :id";
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('id',$id);
+        self::$pdoStResults->execute();
+    }
+
     public static function modifFav($favori,$id)  {
         self::seConnecter();
 
@@ -338,6 +369,64 @@ class GestionClavier {
         return self::$resultat;
 
     }
+
+    public static function getLacouleurByid($idTouche, $idCommande) {
+        self::seConnecter();
+
+        self::$requete = "SELECT couleurperso as lacouleur FROM `personnalisation` WHERE `idTouches` = :idTouche and idCommande = :idCommande";
+
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('idTouche', $idTouche);
+        self::$pdoStResults->bindValue('idCommande', $idCommande);
+        self::$pdoStResults->execute();
+        self::$resultat = self::$pdoStResults->fetch();
+
+        self::$pdoStResults->closeCursor();
+        return self::$resultat->lacouleur;
+    }
+
+    public static function getMinTouche($idClavier) {
+        self::seConnecter();
+
+        self::$requete = "SELECT min(idTouche) as mintouche FROM `touche` where idClavier = :idClavier";
+
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('idClavier', $idClavier);
+        self::$pdoStResults->execute();
+        self::$resultat = self::$pdoStResults->fetch();
+
+        self::$pdoStResults->closeCursor();
+        return self::$resultat->mintouche;
+    }
+
+    public static function getMaxTouche($idClavier) {
+        self::seConnecter();
+
+        self::$requete = "SELECT max(idTouche) as maxtouche FROM `touche` where idClavier = :idClavier";
+
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('idClavier', $idClavier);
+        self::$pdoStResults->execute();
+        self::$resultat = self::$pdoStResults->fetch();
+
+        self::$pdoStResults->closeCursor();
+        return self::$resultat->maxtouche;
+    }
+
+    public static function getIdClavierByCommande($idCommande) {
+        self::seConnecter();
+
+        self::$requete = "SELECT idClavier as idclavier FROM `commandeclavier` WHERE idCommande = :idCommande";
+
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('idCommande', $idCommande);
+        self::$pdoStResults->execute();
+        self::$resultat = self::$pdoStResults->fetch();
+
+        self::$pdoStResults->closeCursor();
+        return self::$resultat->idclavier;
+    }
+
     // </editor-fold>
 }
 

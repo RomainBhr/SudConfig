@@ -7,7 +7,7 @@
     <span class="bleu">
         <span class="blanc">
             <span class="rouge">
-                <h1 class="moins1">Vous êtes la catégorie <u><?= $cat->libelleCat?></u>
+                <h1 class="moins1">Vous êtes dans la catégorie <u><?= $cat->libelleCat?></u>
                      <h3 class="">
                         <a href="index.php">Accueil</a> /
                         <a href="index.php?cas=afficherProduits&categorie=<?= $cat->idCat ?>"><?= $cat->libelleCat ?></a>

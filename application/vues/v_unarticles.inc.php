@@ -29,13 +29,13 @@
                     <div class="w3-content">
                         <?php foreach (VariablesGlobales::$lesImages as $uneImage){?>
                             <div class="mySlides">
-                                <img src="public/images/produit/<?= $uneImage->url ?>" alt="photo" class="img-de-article" />
+                                <img src="public/images/produit/p-<?= $uneImage->idArtic ?>/<?= $uneImage->url ?>" alt="photo" class="img-de-article" />
                             </div>
                         <?php } ?>
                     </div>
                     <div class="w3-center">
                         <?php foreach (VariablesGlobales::$lesImages as $uneImage){?>
-                            <button class="boutonautre" onclick="currentDiv(<?= $uneImage->IdImage ?>)"><img src="public/images/produit/<?= $uneImage->url ?>" alt="photo" width="100px" height="100px"/>
+                            <button class="boutonautre" onclick="currentDiv(<?= $uneImage->emplacement ?>)"><img src="public/images/produit/p-<?= $uneImage->idArtic ?>/<?= $uneImage->url ?>" alt="photo" width="100px" height="100px"/>
                             </button>
                         <?php } ?>
                     </div>

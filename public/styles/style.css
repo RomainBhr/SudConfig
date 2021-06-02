@@ -20,6 +20,21 @@ body {
 }
 
 /********************************************************
+                           Video
+*********************************************************/
+
+video {
+    background-color: black;
+    background-position: center center;
+    overflow: hidden;
+    background-size: contain;
+}
+
+.acc-img-txt{
+    position: absolute;
+    width: 100%;
+}
+/********************************************************
                            Text
 *********************************************************/
 
@@ -298,7 +313,26 @@ h3{
     background-color: black;
     border-right: #ff0000 solid 4px;
 }
-
+.boutonpaiment{
+    font-family: 'Montserrat Alternates', sans-serif;
+    color: white;
+    width: 300px;
+    height: 45px;
+    padding: 5px;
+    background-color: black;
+    border: white 3px solid;
+    border-left: #0019ff 3px solid;
+    border-right: red 3px solid;
+    box-shadow: black 2px 2px 2px 0px;
+    border-radius: 30px;
+    transition-duration: 1s;
+}
+.boutonpaiment:hover{
+    transition-duration: 1s;
+    background-color: white;
+    border-color: black;
+    color: black;
+}
 .bouton{
     position: relative;
     font-family: 'Montserrat Alternates', sans-serif;
@@ -407,29 +441,143 @@ h3{
 
 .contenue-panier {
     margin-left: 5%;
-    width: 30%;
+    width: 100%;
     background-color: #252422;
     text-align: left;
-    padding: 1%;
+    padding: 3%;
     margin-top: 30px;
     box-shadow: black 7px 7px 6px 0px;
 }
 
 .contenue-panier h4{
     text-align: left;
-}
 
+}
+.stock-succ{
+    width: 100%;
+    margin-top: 3%;
+    background: red;
+}
+.paiment{
+    width: 25%;
+    max-height: 406px;
+    min-width: 300px;
+    min-height: 293px;
+    height: 400px;
+    background: #252422;
+    margin-left: 40%;
+    margin-top: 3%;
+    box-shadow: black 7px 7px 6px 0px;
+}
+.paiment h3{
+    margin: 0 auto;
+    padding: 10px;
+    text-align: center;
+}
+.paiment h4{
+    margin: 10px;
+    padding: 0;
+    padding-top: 5px;
+    text-align: left;
+}
 .lePanier{
     margin-left: 30px;
+}
+
+.flex-paiment{
+    display: flex;
+    flex-direction: row ;
+    flex-flow: wrap;
+    margin-top: 3%;
+}
+/********************************************************
+                       Commander
+*********************************************************/
+
+.flex-commander{
+    display: flex;
+    flex-flow: wrap;
+}
+
+.commander{
+    width: 70%;
+    background: #252422;
+    height: auto;
+    padding: 2%;
+    box-shadow: black 7px 7px 6px 0px;
+}
+
+.total-prix{
+    width: 20%;
+    margin-left: 3%;
+    background: #252422;
+    max-height: 370px;
+    min-height: 360px;
+    height: auto;
+    padding: 1%;
+    min-width: 300px;
+    box-shadow: black 7px 7px 6px 0px;
+}
+
+.total-prix h4{
+    text-align: left;
+}
+
+.commander-ligne{
+    border-top: 3px solid #6c6862;
+    padding-top: 2%;
+}
+
+.RappelsCommande{
+    border-bottom: 3px solid black;
+    margin-bottom: 5px;
+    margin-left: 3%;
+    padding-left: 2%;
+    margin-right: 3%;
+}
+.RappelsCommande2{
+    margin-bottom: 5px;
+    margin-left: 3%;
+    padding-left: 2%;
+    margin-right: 3%;
+}
+.prix-total{
+    background: #151414;
+    padding: 1%;
+    margin-bottom: 2%;
+    border: solid 3px #000;
+    box-shadow: black 4px 6px 6px 0px;
+    border-radius: 20px;
+    min-width: 20%;
+    max-width: 25%;
+    margin-left: 3%;
+}
+
+.img-livreur{
+    border: 5px solid #000;
+    box-shadow: black 4px 6px 6px 0px;
+    border-radius: 100px;
+    width:150px;
+    height:150px;
+}
+.livreur{
+    display: flex;
+    flex-flow: wrap;
+    text-align: left;
+    width: 100%;
+    min-height: 250px;
+    margin-top: 2%;
+    border-bottom: 2px solid black;
 }
 /********************************************************
                           touche
 *********************************************************/
 .leclavier{
-    background-color: #ffbf00;
+    background-color: #737373;
     border: 3px solid #000000;
 }
 .touche{
+    font-family: 'Montserrat Alternates', sans-serif;
     padding: 3px;
     width: 50px;
     height: 40px;
@@ -480,6 +628,12 @@ h3{
     color: black;
     font-family: 'Montserrat Alternates', sans-serif;
     font-size: 40px;
+}
+
+.oModal table a{
+    color: white;
+    font-family: 'Montserrat Alternates', sans-serif;
+    font-size: 20px;
 }
 
 .basoModal{
@@ -637,6 +791,18 @@ nav > ul > li:hover a{
 
 }
 
+.menu-admin:hover {
+    color: #515151;
+    transition-duration: 1s;
+
+}
+
+.menu-admin {
+    color:#000000;
+    transition-duration: 1s;
+    font-size: 20px;
+}
+
 .menu-even:hover {
     color:#ffffff;
     transition-duration: 1s;
@@ -732,7 +898,7 @@ nav li:hover .submenu2{
 *********************************************************/
 
 .menu-logo{
-    padding-top: 14%;
+    padding-top: 17%;
     display: block;
     animation: text 2s 1;
 }
@@ -862,7 +1028,7 @@ nav li:hover .submenu2{
 *********************************************************/
 
 .corp-de-page{
-    box-shadow: inset black 0 2px 1px;
+    /*box-shadow: inset black 0 2px 1px;*/
     display: block;
     width: 100%;
     margin: auto;

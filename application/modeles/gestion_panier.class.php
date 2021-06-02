@@ -65,6 +65,11 @@ class GestionPanier
         return self::$resultat;
     }
 
+    public static function getLesLivreurs()
+    {
+        return self::SelectAll("modelivraison");
+    }
+
     public static function getLesProduits()
     {
         return self::SelectAll("articles");
@@ -102,6 +107,63 @@ class GestionPanier
 
     }
 
+    public  static  function lastProduit($idPanier){
+        self::seConnecter();
+
+        self::$requete = "SELECT idCont as nbProduits FROM contenu_panier where id_panier = :idPanier ORDER BY idCont DESC LIMIT 1";
+
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('idPanier', $idPanier);
+        self::$pdoStResults->execute();
+        self::$resultat = self::$pdoStResults->fetch();
+
+        self::$pdoStResults->closeCursor();
+        return self::$resultat->nbProduits;
+    }
+
+    public  static  function lastLivreur(){
+        self::seConnecter();
+
+        self::$requete = "SELECT idLivraison as nbProduits FROM modelivraison ORDER BY idLivraison DESC LIMIT 1";
+
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->execute();
+        self::$resultat = self::$pdoStResults->fetch();
+
+        self::$pdoStResults->closeCursor();
+        return self::$resultat->nbProduits;
+    }
+
+    public static function prixTotal($idPanier) {
+        self::seConnecter();
+
+        self::$requete = "SELECT sum(prix * quantite) as nbProduits FROM articles a, contenu_panier cp WHERE a.idArticle = cp.articles_id AND cp.id_panier = :idPanier ";
+
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('idPanier', $idPanier);
+        self::$pdoStResults->execute();
+        self::$resultat = self::$pdoStResults->fetch();
+
+        self::$pdoStResults->closeCursor();
+        return self::$resultat->nbProduits;
+
+    }
+
+    public static function prixTotal2($idPanier) {
+        self::seConnecter();
+
+        self::$requete = "SELECT sum(prixModif)as nbProduits FROM commandeclavier c, contenu_panier cp WHERE c.idCommande = cp.id_Commande AND cp.id_panier = :idPanier ";
+
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('idPanier', $idPanier);
+        self::$pdoStResults->execute();
+        self::$resultat = self::$pdoStResults->fetch();
+
+        self::$pdoStResults->closeCursor();
+        return self::$resultat->nbProduits;
+
+    }
+
     public static function nombreDArticle($idPanier) {
         self::seConnecter();
 
@@ -117,10 +179,20 @@ class GestionPanier
 
     }
 
+    public static function SupprimerAllPanier($id)  {
+        self::seConnecter();
+
+        self::$requete = "DELETE FROM `contenu_panier` WHERE id_panier = :id";
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('id',$id);
+        self::$pdoStResults->execute();
+    }
+
+
     public static function getPanierByIdUserArticle($idPanier) {
         self::seConnecter();
 
-        self::$requete = "SELECT * FROM contenu_panier cp, articles a, panier p, articlecategorie ac where p.id = cp.id_panier AND a.idArticle = cp.articles_id and ac.idCat = a.idCat and p.id = :id";
+        self::$requete = "SELECT * FROM contenu_panier cp, articles a, panier p, articlecategorie ac where p.id = cp.id_panier AND a.idArticle = cp.articles_id and ac.idCat = a.idCat and p.id = :id ORDER BY idCont ASC";
 
         self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
         self::$pdoStResults->bindValue('id', $idPanier);
@@ -132,10 +204,25 @@ class GestionPanier
 
     }
 
+    public static function getLivreurById($idLivreur) {
+        self::seConnecter();
+
+        self::$requete = "SELECT * FROM modelivraison where idLivraison = :idLivraison";
+
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('idLivraison', $idLivreur);
+        self::$pdoStResults->execute();
+        self::$resultat = self::$pdoStResults->fetchAll();
+
+        self::$pdoStResults->closeCursor();
+        return self::$resultat;
+
+    }
+
     public static function getPanierByIdUserClavier($idPanier) {
         self::seConnecter();
 
-        self::$requete = "SELECT * FROM contenu_panier cp, panier p, commandeclavier c,clavier cl where p.id = cp.id_panier AND  c.idCommande = cp.id_Commande AND cl.idClavier = c.idClavier AND p.id = :id";
+        self::$requete = "SELECT * FROM contenu_panier cp, panier p, commandeclavier c,clavier cl, materiaux m where m.prixMat = c.materiaux AND p.id = cp.id_panier AND  c.idCommande = cp.id_Commande AND cl.idClavier = c.idClavier AND p.id = :id";
 
         self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
         self::$pdoStResults->bindValue('id', $idPanier);

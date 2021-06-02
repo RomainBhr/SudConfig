@@ -7,7 +7,7 @@
     <span class="bleu">
         <span class="blanc">
             <span class="rouge">
-                <h1 class="moins1">Vous êtes la catégorie <u><?= $cat->libelleCat?></u>
+                <h1 class="moins1">Vous êtes dans la catégorie <u><?= $cat->libelleCat?></u>
                      <h3 class="">
                         <a href="index.php">Accueil</a> /
                         <a href="index.php?cas=afficherProduits&categorie=<?= $cat->idCat ?>"><?= $cat->libelleCat ?></a>
@@ -28,7 +28,14 @@
                 <?php } else { ?>
                     <div class="unarticle">
                     <?php } ?>
+                        <?php if ($unProduit->nbStock < 1){ ?>
+                            <div class="stock-succ">
+                                <h4>Victime de son succès</h4>
+                            </div>
+                        <div class="bas-article" style="padding-top: 0px">
+                        <?php }else{ ?>
                             <div class="bas-article">
+                                <?php } ?>
                                 <h4 style="color: #00a1f1"><?php if ($unProduit->recommander == 1){ ?> Recommander <?php } else { echo " <br> "; } ?></h4>
                                 <?php if ($unProduit->libelle == "Premium"){ ?>
                                     <h3 class="premium"><?= $unProduit->libelle ?></h3>

@@ -5,21 +5,29 @@
 <div class="photo2">
     <img class="photo" src="<?php echo Chemins::IMAGES_PRODUITS.'Capture.PNG'; ?>">
 </div>e-->
+
+    <div class="acc-img-txt">
+        <div class="menu-logo">
+
+            <img class="logo" src="<?php echo Chemins::IMAGES_LOGO.'logo.gif'; ?>">
+
+        </div>
+
+        <div class="titre">
+
+            <p class="dypherhents"><span class="jaune">SUD</span><span class="blanc2">-CONFIG</span></p>
+
+        </div>
+    </div>
 <div>
-    <div class="menu-logo">
+        <video autoplay="true" preload="auto" style="width: 100%;" loop muted>
+            <source type="video/mp4" src="<?php echo Chemins::VIDEO.'fond.mp4'; ?>" autoplay="true" preload="auto" style="width: 100%">
+            <!-- Source vidéo par défaut -->
 
-        <img class="logo" src="<?php echo Chemins::IMAGES_LOGO.'logo.gif'; ?>">
-
-    </div>
-
-    <div class="titre">
-
-        <p class="dypherhents"><span class="jaune">SUD</span><span class="blanc2">-CONFIG</span></p>
-
-    </div>
+        </video>
 </div>
-<div class="corp-de-page" style="margin-top: 8%; padding: 2%">
-    <h1 class="moins1">Nos recommandations :</h1><br>
+<div class="corp-de-page" style="margin-top: 2%;">
+    <h1 class="moins1" style="margin-left: 2%">Nos recommandations :</h1><br>
     <article>
         <div class="article" style="margin-top: -40px"><?php
             foreach (VariablesGlobales::$Recommander as $unProduit) {

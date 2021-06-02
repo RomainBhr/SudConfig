@@ -5,7 +5,7 @@
                 <h1 class="moins1">Mes personnalisation</u>
                      <h3>
                         <a href="index.php">Accueil</a> /
-                        <a href="index.php?cas=afficherMesProduits&categorie=<?= $_SESSION['id']; ?>"><?= $_SESSION['user']; ?></a>
+                        <a href="index.php?cas=afficherMesPersonnalisations">Personnalisation</a>
                     </h3>
                 </h1><br>
             </span>
