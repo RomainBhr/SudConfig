@@ -1235,6 +1235,9 @@ aside{
 .tabcont td{
     padding: 1em;
 }
+.margin-tab{
+    float: left;
+}
 .margin-tab-rigth{
     margin-right: 50px;
 }

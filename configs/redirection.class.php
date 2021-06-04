@@ -98,6 +98,12 @@ switch ($cas) {
         $controleurCommande->AfficherCommande();
         break;
     }
+    case 'payerCommande':{
+        require_once Chemins::CONTROLEURS.'controleur_passercommande.class.php';
+        $controleurCommande = new ControleurPasserCommande();
+        $controleurCommande->AfficherPaiment();
+        break;
+    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Panier">

@@ -2,7 +2,7 @@
     <span class="bleu">
         <span class="blanc">
             <span class="rouge">
-                <h1 class="moins1">Mes personnalisation</u>
+                <h1 class="moins1">Mes personnalisations</u>
                      <h3>
                         <a href="index.php">Accueil</a> /
                         <a href="index.php?cas=afficherMesPersonnalisations">Personnalisation</a>

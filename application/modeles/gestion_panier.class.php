@@ -204,6 +204,21 @@ class GestionPanier
 
     }
 
+    public static function getPanierByIdUser($idPanier) {
+        self::seConnecter();
+
+        self::$requete = "SELECT * FROM contenu_panier cp, panier p where p.id = cp.id_panier and p.id = :id";
+
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('id', $idPanier);
+        self::$pdoStResults->execute();
+        self::$resultat = self::$pdoStResults->fetchAll();
+
+        self::$pdoStResults->closeCursor();
+        return self::$resultat;
+
+    }
+
     public static function getLivreurById($idLivreur) {
         self::seConnecter();
 
@@ -218,6 +233,22 @@ class GestionPanier
         return self::$resultat;
 
     }
+
+    public static function getConserverIdUserClavier($idUti) {
+        self::seConnecter();
+
+        self::$requete = "SELECT idCarte AS nbProduits,numCarte,nomCarte,dateExperiration,codeSecu,conserver,idUti FROM cartebancaire where idUti = :idUti AND conserver = 1 ORDER BY idCarte desc LIMIT 1";
+
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('idUti', $idUti);
+        self::$pdoStResults->execute();
+        self::$resultat = self::$pdoStResults->fetchAll();
+
+        self::$pdoStResults->closeCursor();
+        return self::$resultat;
+
+    }
+
 
     public static function getPanierByIdUserClavier($idPanier) {
         self::seConnecter();
@@ -261,6 +292,147 @@ class GestionPanier
         self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
         self::$pdoStResults->execute();
     }
+    //****Parti gestion commander (créer une page modele plutard)
+    public static function supprimerPanier($id)  {
+        self::seConnecter();
+
+        self::$requete = "DELETE FROM contenu_panier WHERE id_panier = :id";
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('id',$id);
+        self::$pdoStResults->execute();
+    }
+
+    public  static  function lastidCommande(){
+        self::seConnecter();
+
+        self::$requete = "SELECT idCommande as nbProduits FROM commande ORDER BY idCommande DESC LIMIT 1";
+
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->execute();
+        self::$resultat = self::$pdoStResults->fetch();
+
+        self::$pdoStResults->closeCursor();
+        return self::$resultat->nbProduits;
+    }
+    public  static  function lastidValidation(){
+        self::seConnecter();
+
+        self::$requete = "SELECT numvalidation as nbProduits FROM validation ORDER BY numvalidation DESC LIMIT 1";
+
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->execute();
+        self::$resultat = self::$pdoStResults->fetch();
+
+        self::$pdoStResults->closeCursor();
+        return self::$resultat->nbProduits;
+    }
+    public  static  function lastidCarte(){
+        self::seConnecter();
+
+        self::$requete = "SELECT idCarte as nbProduits FROM cartebancaire ORDER BY idCarte DESC LIMIT 1";
+
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->execute();
+        self::$resultat = self::$pdoStResults->fetch();
+
+        self::$pdoStResults->closeCursor();
+        return self::$resultat->nbProduits;
+    }
+    public static function ajouterUneCommande($idCommande,$prix,$idUser,$adresseRetenue,$nomPrenomEmail,$idLivreur,$idCarte){
+
+        self::seConnecter();
+
+        self::$requete = "insert into commande(idCommande,prix,datePaiment,idUser,adresseRetenue,nomPrenomEmail,idLivreur,idCarte) values(:idCommande,:prix,now(),:idUser,:adresseRetenue,:nomPrenomEmail,:idLivreur,:idCarte)";
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('idCommande', $idCommande);
+        self::$pdoStResults->bindValue('prix', $prix);
+        self::$pdoStResults->bindValue('idUser', $idUser);
+        self::$pdoStResults->bindValue('adresseRetenue', $adresseRetenue);
+        self::$pdoStResults->bindValue('nomPrenomEmail', $nomPrenomEmail);
+        self::$pdoStResults->bindValue('idLivreur', $idLivreur);
+        self::$pdoStResults->bindValue('idCarte', $idCarte);
+
+        self::$pdoStResults->execute();
+
+    }
+
+    public static function ajouterUnArticleParCommande($idArticle,$idCommande,$numValidation, $quantite){
+
+        self::seConnecter();
+
+        self::$requete = "insert into artcilecommande(idArticle,idCommande,numValidation,quantite) values(:idArticle,:idCommande,:numValidation,:quantite)";
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('idArticle', $idArticle);
+        self::$pdoStResults->bindValue('idCommande', $idCommande);
+        self::$pdoStResults->bindValue('numValidation', $numValidation);
+        self::$pdoStResults->bindValue('quantite', $quantite);
+
+        self::$pdoStResults->execute();
+
+    }
+
+    public static function ajouterValidation($numvalidation,$idTouche,$idCommande,$couleurFinal){
+
+        self::seConnecter();
+
+        self::$requete = "insert into validation(numvalidation,idTouche,idCommande,couleurFinal) values(:numvalidation,:idTouche,:idCommande,:couleurFinal)";
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('numvalidation', $numvalidation);
+        self::$pdoStResults->bindValue('idTouche', $idTouche);
+        self::$pdoStResults->bindValue('idCommande', $idCommande);
+        self::$pdoStResults->bindValue('couleurFinal', $couleurFinal);
+
+        self::$pdoStResults->execute();
+
+    }
+
+    public static function updateCarte($numCarte,$nomCarte,$dateExperiration, $codeSecu, $conserver, $idUti, $idCarte)  {
+        self::seConnecter();
+
+        self::$requete = "update cartebancaire Set numCarte = :numCarte,nomCarte = :nomCarte,dateExperiration = :dateExperiration,codeSecu = :codeSecu,conserver = :conserver where idUti = :idUti and idCarte = :idCarte";
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('numCarte', $numCarte);
+        self::$pdoStResults->bindValue('nomCarte', $nomCarte);
+        self::$pdoStResults->bindValue('dateExperiration', $dateExperiration);
+        self::$pdoStResults->bindValue('codeSecu', $codeSecu);
+        self::$pdoStResults->bindValue('conserver', $conserver);
+        self::$pdoStResults->bindValue('idUti', $idUti);
+        self::$pdoStResults->bindValue('idCarte', $idCarte);
+        self::$pdoStResults->execute();
+    }
+
+    public static function ajouterCarteDecredit($numCarte,$nomCarte,$dateExperiration, $codeSecu, $conserver, $idUti){
+
+        self::seConnecter();
+
+        self::$requete = "insert into cartebancaire(numCarte,nomCarte,dateExperiration,codeSecu,conserver,idUti) values(:numCarte,:nomCarte,:dateExperiration,:codeSecu,:conserver,:idUti)";
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('numCarte', $numCarte);
+        self::$pdoStResults->bindValue('nomCarte', $nomCarte);
+        self::$pdoStResults->bindValue('dateExperiration', $dateExperiration);
+        self::$pdoStResults->bindValue('codeSecu', $codeSecu);
+        self::$pdoStResults->bindValue('conserver', $conserver);
+        self::$pdoStResults->bindValue('idUti', $idUti);
+
+        self::$pdoStResults->execute();
+
+    }
+
+    public  static  function getLivreurByidCommande($idCommande){
+        self::seConnecter();
+
+        self::$requete = "SELECT * FROM commande c, modelivraison l where c.idCommande = :idCommande and c.idLivreur = l.idLivraison";
+
+        self::$pdoStResults = self::$pdoCnxBase->prepare(self::$requete);
+        self::$pdoStResults->bindValue('idCommande', $idCommande);
+        self::$pdoStResults->execute();
+        self::$resultat = self::$pdoStResults->fetchAll();
+
+        self::$pdoStResults->closeCursor();
+        return self::$resultat;
+    }
 }
+
+
 
 ?>

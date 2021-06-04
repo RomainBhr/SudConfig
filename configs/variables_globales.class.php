@@ -66,6 +66,12 @@ class VariablesGlobales
     public static $lacouleurlid;
     public static $prenom;
     public static $entete;
+    public static $commandeId;
+    public static $adresse;
+    public static $nomPrenomEmail;
+    public static $idPanier;
+    public static $idCarte;
+    public static $idValidation;
 }
 
 ?>
